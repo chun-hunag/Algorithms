@@ -11,6 +11,7 @@ public class Percolation {
 	private final int gridLength;
 	private final int columnNumber;
 	private final int virtualTop;
+	private int openCount;
 	
 	// creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
@@ -23,6 +24,7 @@ public class Percolation {
     	this.sites = new WeightedQuickUnionUF(this.columnNumber);
     	this.sitesBackwash = new WeightedQuickUnionUF(this.columnNumber - 1);
     	this.sitesState = new boolean[this.columnNumber];
+    	this.openCount = 0;
     	// initailize array
     	for (int i = 0; i < this.columnNumber; i++) {
     		this.sitesState[i] = false;
@@ -34,6 +36,7 @@ public class Percolation {
     	validateRowAndCol(row, col);
     	int self = rowColToColumnNumber(row, col);
     	this.sitesState[self] = true;
+    	this.openCount++;
     	if (row == 1) { // first row
     		this.sites.union(self, this.virtualTop);
     		this.sitesBackwash.union(self, this.virtualTop);
@@ -112,14 +115,7 @@ public class Percolation {
 
     // returns the number of open sites
     public int numberOfOpenSites() {
-    	
-    	int count = 0;
-    	for (int i = 0; i < this.columnNumber; i++) {
-			if (this.sitesState[i]) {
-				count++;
-			}
-    	}
-    	return count;
+    	return this.openCount;
     }
 
     // does the system percolate?
