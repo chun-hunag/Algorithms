@@ -48,7 +48,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 		} else { // same key
 			node.value = value;
 		}
-		node.count = size(node.left) + size(node.right);
+		node.count = size(node.left) + size(node.right) + 1;
 		return node;
 	}
 	/**
